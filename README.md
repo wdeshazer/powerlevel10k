@@ -59,7 +59,7 @@ Type `p10k configure` to access the builtin configuration wizard right from your
 All styles except [Pure](#pure-compatibility) are functionally equivalent. They display the same
 information and differ only in presentation.
 
-Configuration wizard creates `~/.p10k.zsh` based on your preferences. Additional prompt
+Configuration wizard creates `${ZDOTDIR:-~.p10k}.zsh` based on your preferences. Additional prompt
 customization can be done by editing this file. It has plenty of comments to help you navigate
 through configuration options.
 
@@ -157,9 +157,9 @@ Powerlevel10k can produce the same prompt as [Pure](https://github.com/sindresor
 You can still use Powerlevel10k features such as [transient prompt](#transient-prompt) or
 [instant prompt](#instant-prompt) when sporting Pure style.
 
-To customize prompt, edit `~/.p10k.zsh`. Powerlevel10k doesn't recognize Pure configuration
+To customize prompt, edit `${ZDOTDIR:-~.p10k}.zsh`. Powerlevel10k doesn't recognize Pure configuration
 parameters, so you'll need to use `POWERLEVEL9K_COMMAND_EXECUTION_TIME_THRESHOLD=3` instead of
-`PURE_CMD_MAX_EXEC_TIME=3`, etc. All relevant parameters are in `~/.p10k.zsh`. This file has
+`PURE_CMD_MAX_EXEC_TIME=3`, etc. All relevant parameters are in `${ZDOTDIR:-~.p10k}.zsh`. This file has
 plenty of comments to help you navigate through it.
 
 *FAQ:* [What is the best prompt style in the configuration wizard?](
@@ -167,7 +167,7 @@ plenty of comments to help you navigate through it.
 
 ### <a name='what-is-instant-prompt'></a>Instant prompt
 
-If your `~/.zshrc` loads many plugins, or perhaps just a few slow ones
+If your `${ZDOTDIR:-~}/.zshrc` loads many plugins, or perhaps just a few slow ones
 (for example, [pyenv](https://github.com/pyenv/pyenv) or [nvm](https://github.com/nvm-sh/nvm)), you
 may have noticed that it takes some time for Zsh to start.
 
@@ -224,7 +224,7 @@ Here's the relevant parameter for kubernetes context:
 typeset -g POWERLEVEL9K_KUBECONTEXT_SHOW_ON_COMMAND='kubectl|helm|kubens'
 ```
 
-To customize when different prompt segments are shown, open `~/.p10k.zsh`, search for
+To customize when different prompt segments are shown, open `${ZDOTDIR:-~.p10k}.zsh`, search for
 `SHOW_ON_COMMAND` and either remove these parameters to display affected segments unconditionally,
 or change their values.
 
@@ -291,7 +291,7 @@ Powerlevel10k can be configured to look like any other Zsh theme out there.
   #how-to-make-powerlevel10k-look-like-robbyrussell-oh-my-zsh-theme) emulations are built-in.
 To emulate the appearance of other themes, you'll need to write a suitable configuration file. The
 best way to go about it is to run `p10k configure`, select the style that is the closest to your
-goal and then edit `~/.p10k.zsh`.
+goal and then edit `${ZDOTDIR:-~.p10k}.zsh`.
 
 The full range of Powerlevel10k appearance spans from spartan:
 
@@ -308,7 +308,7 @@ To ~~ridiculous~~ extravagant:
 Powerlevel10k comes with dozens of built-in high quality prompt segments that can display
 information from a variety of sources. When you run `p10k configure` and choose any style
 except [Pure](#pure-compatibility), many of these segments get enabled by
-default while others can be manually enabled by opening `~/.p10k.zsh` and uncommenting them.
+default while others can be manually enabled by opening `${ZDOTDIR:-~.p10k}.zsh` and uncommenting them.
 You can enable as many segments as you like. It won't slow down your prompt or Zsh startup.
 
 | Segment | Meaning |
@@ -405,7 +405,7 @@ it out of the box.
 Type `p10k help segment` for reference.
 
 *Note*: If you modify `POWERLEVEL9K_*` parameters in an already initialized interactive shell (as
-opposed to editing `~/.p10k.zsh`), the changes might not be immediately effective. To apply the
+opposed to editing `${ZDOTDIR:-~.p10k}.zsh`), the changes might not be immediately effective. To apply the
 modifications, invoke `p10k reload`. Setting `POWERLEVEL9K_DISABLE_HOT_RELOAD=false` eliminates the
 necessity for `p10k reload` but results in a marginally slower prompt.
 
@@ -435,16 +435,16 @@ Powerlevel10k.
 ### Manual
 
 ```zsh
-git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/powerlevel10k
-echo 'source ~/powerlevel10k/powerlevel10k.zsh-theme' >>~/.zshrc
+git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_THEME_DIR:-${XDG_CONFIG_HOME:-~/.config}/powerlevel10k
+echo 'source ~/powerlevel10k/powerlevel10k.zsh-theme' >>${ZDOTDIR:-~}/.zshrc
 ```
 
 Users in China can use the official mirror on gitee.com for faster download.<br>
 中国用户可以使用 gitee.com 上的官方镜像加速下载.
 
 ```zsh
-git clone --depth=1 https://gitee.com/romkatv/powerlevel10k.git ~/powerlevel10k
-echo 'source ~/powerlevel10k/powerlevel10k.zsh-theme' >>~/.zshrc
+git clone --depth=1 https://gitee.com/romkatv/powerlevel10k.git ${ZSH_THEME_DIR:-${XDG_CONFIG_HOME:-~/.config}/powerlevel10k
+echo 'source ~/powerlevel10k/powerlevel10k.zsh-theme' >>${ZDOTDIR:-~}/.zshrc
 ```
 
 This is the simplest kind of installation and it works even if you are using a plugin manager. Just
@@ -455,15 +455,15 @@ make sure to disable the current theme in your plugin manager. See
 
 1. Clone the repository:
     ```zsh
-    git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k"
+    git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
     ```
     Users in China can use the official mirror on gitee.com for faster download.<br>
     中国用户可以使用 gitee.com 上的官方镜像加速下载.
 
     ```zsh
-    git clone --depth=1 https://gitee.com/romkatv/powerlevel10k.git "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k"
+    git clone --depth=1 https://gitee.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
     ```
-2. Open `~/.zshrc`, find the line that sets `ZSH_THEME`, and change its value to `"powerlevel10k/powerlevel10k"`.
+2. Set `ZSH_THEME="powerlevel10k/powerlevel10k"` in `${ZDOTDIR:-~}/.zshrc`.
 
 ### Prezto
 
@@ -475,7 +475,7 @@ Add `zmodule romkatv/powerlevel10k --use degit` to `~/.zimrc` and run `zimfw ins
 
 ### Antibody
 
-Add `antibody bundle romkatv/powerlevel10k` to `~/.zshrc`.
+Add `antibody bundle romkatv/powerlevel10k` to `${ZDOTDIR:-~}/.zshrc`.
 
 ### Antidote
 
@@ -483,54 +483,54 @@ Add `romkatv/powerlevel10k` to `~/.zsh_plugins.txt`.
 
 ### Antigen
 
-Add `antigen theme romkatv/powerlevel10k` to `~/.zshrc`. Make sure you have `antigen apply`
+Add `antigen theme romkatv/powerlevel10k` to `${ZDOTDIR:-~}/.zshrc`. Make sure you have `antigen apply`
 somewhere after it.
 
 ### Zplug
 
-Add `zplug romkatv/powerlevel10k, as:theme, depth:1` to `~/.zshrc`.
+Add `zplug romkatv/powerlevel10k, as:theme, depth:1` to `${ZDOTDIR:-~}/.zshrc`.
 
 ### Zgen
 
-Add `zgen load romkatv/powerlevel10k powerlevel10k` to `~/.zshrc`.
+Add `zgen load romkatv/powerlevel10k powerlevel10k` to `${ZDOTDIR:-~}/.zshrc`.
 
 ### Zplugin
 
-Add `zplugin ice depth=1; zplugin light romkatv/powerlevel10k` to `~/.zshrc`.
+Add `zplugin ice depth=1; zplugin light romkatv/powerlevel10k` to `${ZDOTDIR:-~}/.zshrc`.
 
 The use of `depth=1` ice is optional. Other types of ice are neither recommended nor officially
 supported by Powerlevel10k.
 
 ### Zinit
 
-Add `zinit ice depth=1; zinit light romkatv/powerlevel10k` to `~/.zshrc`.
+Add `zinit ice depth=1; zinit light romkatv/powerlevel10k` to `${ZDOTDIR:-~}/.zshrc`.
 
 The use of `depth=1` ice is optional. Other types of ice are neither recommended nor officially
 supported by Powerlevel10k.
 
 ### Zi
 
-Add `zi ice depth=1; zi light romkatv/powerlevel10k` to `~/.zshrc`.
+Add `zi ice depth=1; zi light romkatv/powerlevel10k` to `${ZDOTDIR:-~}/.zshrc`.
 
 The use of `depth=1` ice is optional. Other types of ice are neither recommended nor officially
 supported by Powerlevel10k.
 
 ### Zap
 
-Add `plug "romkatv/powerlevel10k"` to `~/.zshrc`.
+Add `plug "romkatv/powerlevel10k"` to `${ZDOTDIR:-~}/.zshrc`.
 
 ### Homebrew
 
 ```zsh
 brew install powerlevel10k
-echo "source $(brew --prefix)/share/powerlevel10k/powerlevel10k.zsh-theme" >>~/.zshrc
+echo "source $(brew --prefix)/share/powerlevel10k/powerlevel10k.zsh-theme" >>${ZDOTDIR:-~}/.zshrc
 ```
 
 ### Arch Linux
 
 ```zsh
 yay -S --noconfirm zsh-theme-powerlevel10k-git
-echo 'source /usr/share/zsh-theme-powerlevel10k/powerlevel10k.zsh-theme' >>~/.zshrc
+echo 'source /usr/share/zsh-theme-powerlevel10k/powerlevel10k.zsh-theme' >>${ZDOTDIR:-~}/.zshrc
 ```
 
 [zsh-theme-powerlevel10k-git](https://aur.archlinux.org/packages/zsh-theme-powerlevel10k-git/)
@@ -540,8 +540,8 @@ referenced above is the official Powerlevel10k package.
 
 ```zsh
 apk add zsh zsh-theme-powerlevel10k
-mkdir -p ~/.local/share/zsh/plugins
-ln -s /usr/share/zsh/plugins/powerlevel10k ~/.local/share/zsh/plugins/
+mkdir -p ${XDG_DATA_HOME:-~/.local}/share)/zsh/plugins
+ln -s /usr/share/zsh/plugins/powerlevel10k ${XDG_DATA_HOME:-~/.local}/share)/zsh/plugins/
 ```
 
 ### Fig
@@ -558,7 +558,7 @@ Follow the instructions on
 
 On the first run, Powerlevel10k [configuration wizard](#configuration-wizard) will ask you a few
 questions and configure your prompt. If it doesn't trigger automatically, type `p10k configure`.
-Configuration wizard creates `~/.p10k.zsh` based on your preferences. Additional prompt
+Configuration wizard creates `${ZDOTDIR:-~.p10k}.zsh` based on your preferences. Additional prompt
 customization can be done by editing this file. It has plenty of comments to help you navigate
 through configuration options.
 
@@ -700,17 +700,17 @@ If you are using a different terminal, proceed with manual font installation. �
    - **Yakuake**: Click *≡* → *Manage Profiles* → *New* → *Appearance*. Click *Choose* next to the
      *Font* dropdown, select `MesloLGS NF` and click *OK*. Click *OK* to save the profile. Select the
      new profile and click *Set as Default*.
-   - **Alacritty**: Create or open `~/.config/alacritty/alacritty.toml` and add the following
+   - **Alacritty**: Create or open `${XDG_CONFIG_HOME:-~/.config}/alacritty/alacritty.toml` and add the following
      section to it:
      ```toml
      [font.normal]
      family = "MesloLGS NF"
      ```
-   - **foot**: Create or open `~/.config/foot/foot.ini` and add the following section to it:
+   - **foot**: Create or open `${XDG_CONFIG_HOME:-~/.config}/foot/foot.ini` and add the following section to it:
      ```ini
      font=MesloLGS NF:size=12
      ```
-   - **kitty**: Create or open `~/.config/kitty/kitty.conf` and add the following line to it:
+   - **kitty**: Create or open `${XDG_CONFIG_HOME:-~/.config}/kitty/kitty.conf` and add the following line to it:
       ```text
       font_family MesloLGS NF
       ```
@@ -738,7 +738,7 @@ If you are using a different terminal, proceed with manual font installation. �
      ```
      After changing the config run `xrdb ~/.Xresources` to reload it. The new config is applied to
      all new terminals.
-   - **Zed**: Open `~/.config/zed/settings.json` and set `terminal.font_family` to `"MesloLGS NF"`.
+   - **Zed**: Open `${XDG_CONFIG_HOME:-~/.config}/zed/settings.json` and set `terminal.font_family` to `"MesloLGS NF"`.
      ```jsonc
      {
        "terminal": {
@@ -777,18 +777,13 @@ If you are using a different terminal, proceed with manual font installation. �
      }
      ```
      **_CAVEAT_**: If you open the normal terminal preferences these settings will be overwritten.
-   - **Deepin Terminal**: Create or open `~/.config/deepin/deepin-terminal/config.conf` and add the following section
+   - **Deepin Terminal**: Create or open `${XDG_CONFIG_HOME:-~/.config}/deepin/deepin-terminal/config.conf` and add the following section
      to it:
      ```ini
      [basic.interface.font]
      value = "MesloLGS NF"
      ```
-   - **Ghostty**: Open *Menu → Open Configuration* (Linux) or *Ghostty → Settings...* (Mac) and add
-     the following line:
-     ```text
-     font-family = "MesloLGS NF"
-     ```
-1. Run `p10k configure` to generate a new `~/.p10k.zsh`. The old config may work
+1. Run `p10k configure` to generate a new `${ZDOTDIR:-~.p10k}.zsh`. The old config may work
    incorrectly with the new font.
 
 _Using a different terminal and know how to set the font for it? Share your knowledge by sending a
@@ -802,8 +797,8 @@ the theme. Once you exit Zsh, the container is deleted.
 ```zsh
 docker run -e TERM -e COLORTERM -e LC_ALL=C.UTF-8 -it --rm alpine sh -uec '
   apk add git zsh nano vim
-  git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/powerlevel10k
-  echo "source ~/powerlevel10k/powerlevel10k.zsh-theme" >>~/.zshrc
+  git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_THEME_DIR:-${XDG_CONFIG_HOME:-~/.config}/powerlevel10k
+  echo "source ~/powerlevel10k/powerlevel10k.zsh-theme" >>${ZDOTDIR:-~}/.zshrc
   cd ~/powerlevel10k
   exec zsh'
 ```
@@ -857,7 +852,7 @@ The command to update Powerlevel10k depends on how it was installed.
 | Installation                  | Update command                                              |
 |-------------------------------|-------------------------------------------------------------|
 | [Manual](#manual)             | `git -C ~/powerlevel10k pull`                               |
-| [Oh My Zsh](#oh-my-zsh)       | `git -C "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k" pull` |
+| [Oh My Zsh](#oh-my-zsh)       | `git -C ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k pull` |
 | [Prezto](#prezto)             | `zprezto-update`                                            |
 | [Zim](#zim)                   | `zimfw update`                                              |
 | [Antigen](#antigen)           | `antigen update`                                            |
@@ -872,12 +867,12 @@ The command to update Powerlevel10k depends on how it was installed.
 | [Arch Linux](#arch-linux)     | `yay -S --noconfirm zsh-theme-powerlevel10k-git`            |
 | [Alpine Linux](#alpine-linux) | `apk update && apk upgrade`                                 |
 
-**IMPORTANT**: Restart Zsh after updating Powerlevel10k. [Do not use `source ~/.zshrc`](
+**IMPORTANT**: Restart Zsh after updating Powerlevel10k. [Do not use `source ${ZDOTDIR:-~}/.zshrc`](
   #weird-things-happen-after-typing-source-zshrc).
 
 ### How do I uninstall Powerlevel10k?
 
-1. Remove all references to "p10k" from `~/.zshrc`. You might have this snippet at the top:
+1. Remove all references to "p10k" from `${ZDOTDIR:-~}/.zshrc`. You might have this snippet at the top:
    ```zsh
    if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
      source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
@@ -888,14 +883,14 @@ The command to update Powerlevel10k depends on how it was installed.
    [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
    ```
    These are added by the [configuration wizard](#configuration-wizard). Remove them.
-2. Remove all references to "powerlevel10k" from `~/.zshrc`, `~/.zpreztorc` and `~/.zimrc` (some
+2. Remove all references to "powerlevel10k" from `${ZDOTDIR:-~}/.zshrc`, `~/.zpreztorc` and `~/.zimrc` (some
    of these files may be missing -- this is normal). These references have been added manually by
    yourself when installing Powerlevel10k. Refer to the [installation instructions](#installation)
    if you need a reminder.
-3. Verify that all references to "p10k" and "powerlevel10k" are gone from `~/.zshrc`, `~/.zpreztorc`
+3. Verify that all references to "p10k" and "powerlevel10k" are gone from `${ZDOTDIR:-~}/.zshrc`, `~/.zpreztorc`
    and `~/.zimrc`.
    ```zsh
-   grep -E 'p10k|powerlevel10k' ~/.zshrc ~/.zpreztorc ~/.zimrc 2>/dev/null
+   grep -E 'p10k|powerlevel10k' ${ZDOTDIR:-~}/.zshrc ~/.zpreztorc ~/.zimrc 2>/dev/null
    ```
    If this command produces output, there are still references to "p10k" or "powerlevel10k". You
    need to remove them.
@@ -911,7 +906,7 @@ The command to update Powerlevel10k depends on how it was installed.
    | Installation                  | Uninstall command                                                |
    |-------------------------------|------------------------------------------------------------------|
    | [Manual](#manual)             | `rm -rf ~/powerlevel10k`                                         |
-   | [Oh My Zsh](#oh-my-zsh)       | `rm -rf -- "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k"` |
+   | [Oh My Zsh](#oh-my-zsh)       | `rm -rf -- ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k` |
    | [Prezto](#prezto)             | n/a                                                              |
    | [Zim](#zim)                   | `zimfw uninstall`                                                |
    | [Antigen](#antigen)           | `antigen purge romkatv/powerlevel10k`                            |
@@ -925,7 +920,7 @@ The command to update Powerlevel10k depends on how it was installed.
    | [Homebrew](#homebrew)         | `brew uninstall powerlevel10k`                                   |
    | [Arch Linux](#arch-linux)     | `yay -R --noconfirm zsh-theme-powerlevel10k-git`                 |
    | [Alpine Linux](#alpine-linux) | `apk del zsh-theme-powerlevel10k`                                |
-6. Restart Zsh. [Do not use `source ~/.zshrc`](#weird-things-happen-after-typing-source-zshrc).
+6. Restart Zsh. [Do not use `source ${ZDOTDIR:-~}/.zshrc`](#weird-things-happen-after-typing-source-zshrc).
 7. Delete Powerlevel10k cache files.
    ```zsh
    rm -rf -- "${XDG_CACHE_HOME:-$HOME/.cache}"/p10k-*(N) "${XDG_CACHE_HOME:-$HOME/.cache}"/gitstatus
@@ -941,19 +936,19 @@ The command to update Powerlevel10k depends on how it was installed.
    `target_uname` with the output of the previous command:
    ```sh
    target_uname="replace this with the output of the previous command"
-   git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/powerlevel10k
+   git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_THEME_DIR:-${XDG_CONFIG_HOME:-~/.config}/powerlevel10k
    GITSTATUS_CACHE_DIR="$HOME"/powerlevel10k/gitstatus/usrbin ~/powerlevel10k/gitstatus/install -f -s "${target_uname% *}" -m "${target_uname#* }"
    ```
 3. Copy `~/powerlevel10k` from the machine connected to the Internet to the one without Internet
    access.
-4. Add `source ~/powerlevel10k/powerlevel10k.zsh-theme` to `~/.zshrc` on the machine without
+4. Add `source ~/powerlevel10k/powerlevel10k.zsh-theme` to `${ZDOTDIR:-~}/.zshrc` on the machine without
    Internet access:
    ```zsh
-   echo 'source ~/powerlevel10k/powerlevel10k.zsh-theme' >>~/.zshrc
+   echo 'source ~/powerlevel10k/powerlevel10k.zsh-theme' >>${ZDOTDIR:-~}/.zshrc
    ```
-5. If `~/.zshrc` on the machine without Internet access sets `ZSH_THEME`, remove that line.
+5. If `${ZDOTDIR:-~}/.zshrc` on the machine without Internet access sets `ZSH_THEME`, remove that line.
    ```zsh
-   sed -i.bak '/^ZSH_THEME=/d' ~/.zshrc
+   sed -i.bak '/^ZSH_THEME=/d' ${ZDOTDIR:-~}/.zshrc
    ```
 
 To update, remove `~/powerlevel10k` on both machines and repeat steps 1-3.
@@ -1003,9 +998,9 @@ Powerlevel10k does not affect:
 1. Run this command:
 ```zsh
 # Add powerlevel10k to the list of Oh My Zsh themes.
-git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k"
+git clone --depth=1 https://github.com/romkatv/powerlevel10k.git $ZSH_CUSTOM/themes/powerlevel10k
 # Replace ZSH_THEME="powerlevel9k/powerlevel9k" with ZSH_THEME="powerlevel10k/powerlevel10k".
-sed -i.bak 's/powerlevel9k/powerlevel10k/g' ~/.zshrc
+sed -i.bak 's/powerlevel9k/powerlevel10k/g' ${ZDOTDIR:-~}/.zshrc
 # Restart Zsh.
 exec zsh
 ```
@@ -1033,10 +1028,10 @@ See [instant prompt](#instant-prompt) to learn about instant prompt. This sectio
 can enable and configure it and lists caveats that you should be aware of.
 
 Instant prompt can be enabled either through `p10k configure` or by manually adding the following
-code snippet at the top of `~/.zshrc`:
+code snippet at the top of `${ZDOTDIR:-~}/.zshrc`:
 
 ```zsh
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ${ZDOTDIR:-~}/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
@@ -1055,12 +1050,12 @@ is printed out.
 When using instant prompt, you should carefully check any output that appears on Zsh startup as it
 may indicate that initialization has been altered, or perhaps even broken, by instant prompt.
 Initialization code that may require console input, such as asking for a keyring password or for a
-*[y/n]* confirmation, must be moved above the instant prompt preamble in `~/.zshrc`. Initialization
+*[y/n]* confirmation, must be moved above the instant prompt preamble in `${ZDOTDIR:-~}/.zshrc`. Initialization
 code that merely prints to console but never reads from it will work correctly with instant prompt,
 although output that normally has colors may appear uncolored. You can either leave it be, suppress
 the output, or move it above the instant prompt preamble.
 
-Here's an example of `~/.zshrc` that breaks when instant prompt is enabled:
+Here's an example of `${ZDOTDIR:-~}/.zshrc` that breaks when instant prompt is enabled:
 
 ```zsh
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
@@ -1091,7 +1086,7 @@ chatty-script >/dev/null      # spam output suppressed
 If `POWERLEVEL9K_INSTANT_PROMPT` is unset or set to `verbose`, Powerlevel10k will print a warning
 when it detects console output during initialization to bring attention to potential issues. You can
 silence this warning (without suppressing console output) with `POWERLEVEL9K_INSTANT_PROMPT=quiet`.
-This is recommended if some initialization code in `~/.zshrc` prints to console and it's infeasible
+This is recommended if some initialization code in `${ZDOTDIR:-~}/.zshrc` prints to console and it's infeasible
 to move it above the instant prompt preamble or to suppress its output. You can completely disable
 instant prompt with `POWERLEVEL9K_INSTANT_PROMPT=off`. Do this if instant prompt breaks Zsh
 initialization and you don't know how to fix it.
@@ -1113,7 +1108,7 @@ Zsh but it won't do anything.
 ### How do I initialize direnv when using instant prompt?
 
 If you've enabled [instant prompt](#instant-prompt), you should have these lines at the top of
-`~/.zshrc`:
+`${ZDOTDIR:-~}/.zshrc`:
 
 ```zsh
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
@@ -1138,7 +1133,7 @@ fi
 
 ### How do I export GPG_TTY when using instant prompt?
 
-You can export `GPG_TTY` like this anywhere in `~/.zshrc`:
+You can export `GPG_TTY` like this anywhere in `${ZDOTDIR:-~}/.zshrc`:
 
 ```zsh
 export GPG_TTY=$TTY
@@ -1278,7 +1273,7 @@ Configs created by `p10k configure` may contain parameters of this kind. To cust
 prompt segments are shown, open `~/.p10k.zsh`, search for `SHOW_ON_COMMAND` and either remove these
 parameters or change their values.
 
-You can also define a function in `~/.zshrc` to toggle the display of a prompt segment between
+You can also define a function in `${ZDOTDIR:-~}/.zshrc` to toggle the display of a prompt segment between
 *always* and *on command*. This is similar to `kubeon`/`kubeoff` from
 [kube-ps1](https://github.com/jonmosco/kube-ps1).
 
@@ -1298,7 +1293,7 @@ function kube-toggle() {
 ```
 
 Invoke this function by typing `kube-toggle`. You can also bind it to a key by adding two more lines
-to `~/.zshrc`:
+to `${ZDOTDIR:-~}/.zshrc`:
 
 ```zsh
 zle -N kube-toggle
@@ -1477,7 +1472,7 @@ prompt style.
 Use [this config](
   https://github.com/romkatv/powerlevel10k/blob/master/config/p10k-robbyrussell.zsh).
 
-You can either download it, save as `~/.p10k.zsh` and `source ~/.p10k.zsh` from `~/.zshrc`, or
+You can either download it, save as `~/.p10k.zsh` and `source ~/.p10k.zsh` from `${ZDOTDIR:-~}/.zshrc`, or
 source `p10k-robbyrussell.zsh` directly from your cloned `powerlevel10k` repository.
 
 ### Can prompts for completed commands display error status for *those* commands instead of the commands preceding them?
@@ -1547,7 +1542,7 @@ Powerlevel10k are released. This may change in the future but not soon.
 - [Extra or missing spaces in prompt compared to Powerlevel9k](#extra-or-missing-spaces-in-prompt-compared-to-powerlevel9k)
   - [Extra space without background on the right side of right prompt](#extra-space-without-background-on-the-right-side-of-right-prompt)
   - [Extra or missing spaces around icons](#extra-or-missing-spaces-around-icons)
-- [Weird things happen after typing `source ~/.zshrc`](#weird-things-happen-after-typing-source-zshrc)
+- [Weird things happen after typing `source ${ZDOTDIR:-~}/.zshrc`](#weird-things-happen-after-typing-source-zshrc)
 - [Transient prompt stops working after some time](#transient-prompt-stops-working-after-some-time)
 - [Cannot make Powerlevel10k work with my plugin manager](#cannot-make-powerlevel10k-work-with-my-plugin-manager)
 - [Directory is difficult to see in prompt when using Rainbow style](#directory-is-difficult-to-see-in-prompt-when-using-rainbow-style)
@@ -1567,14 +1562,14 @@ When opening a terminal, or starting zsh manually, you may encounter this error 
 
 1. First, run `typeset -p P9K_VERSION` to check whether Powerlevel10k has been loaded.
    - If `typeset -p P9K_VERSION` succeeds and prints something like `typeset P9K_VERSION=1.19.14`
-     (the version could be different), remove the following line from `~/.zshrc`:
+     (the version could be different), remove the following line from `${ZDOTDIR:-~}/.zshrc`:
      ```zsh
      ZSH_THEME="powerlevel10k/powerlevel10k"
      ```
    - If `typeset -p P9K_VERSION` fails with the error `typeset: no such variable: P9K_VERSION`, run
      the following command:
      ```zsh
-     git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k"
+     git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
      ```
 2. Restart Zsh with `exec zsh`.
 
@@ -1650,7 +1645,7 @@ If the `echo` command prints `❯` but the cursor is still in the wrong place, i
 [the recommended font](#meslo-nerd-font-patched-for-powerlevel10k) and run
 `p10k configure`.
 
-If this doesn't help, add `unset ZLE_RPROMPT_INDENT` at the bottom of `~/.zshrc`.
+If this doesn't help, add `unset ZLE_RPROMPT_INDENT` at the bottom of `${ZDOTDIR:-~}/.zshrc`.
 
 Still having issues? Run the following command to diagnose the problem:
 
@@ -1738,14 +1733,14 @@ See [cursor is in the wrong place](#cursor-is-in-the-wrong-place).
 
 When Powerlevel10k starts, it automatically runs `p10k configure` if no `POWERLEVEL9K_*`
 parameters are defined. Based on your prompt style choices, the configuration wizard creates
-`~/.p10k.zsh` with a bunch of `POWERLEVEL9K_*` parameters in it and adds a line to `~/.zshrc` to
+`~/.p10k.zsh` with a bunch of `POWERLEVEL9K_*` parameters in it and adds a line to `${ZDOTDIR:-~}/.zshrc` to
 source this file. The next time you start Zsh, the configuration wizard shouldn't run automatically.
-If it does, this means the evaluation of `~/.zshrc` terminates prematurely before it reaches the
-line that sources `~/.p10k.zsh`. This most often happens due to syntax errors in `~/.zshrc`. These
+If it does, this means the evaluation of `${ZDOTDIR:-~}/.zshrc` terminates prematurely before it reaches the
+line that sources `~/.p10k.zsh`. This most often happens due to syntax errors in `${ZDOTDIR:-~}/.zshrc`. These
 errors get hidden by the configuration wizard screen, so you don't notice them. When you exit
 configuration wizard, look for error messages. You can also use
 `POWERLEVEL9K_DISABLE_CONFIGURATION_WIZARD=true zsh` to start Zsh without automatically running the
-configuration wizard. Once you can see the errors, fix `~/.zshrc` to get rid of them.
+configuration wizard. Once you can see the errors, fix `${ZDOTDIR:-~}/.zshrc` to get rid of them.
 
 ### Some prompt styles are missing from the configuration wizard
 
@@ -1779,7 +1774,7 @@ you can install it just like any other font. Google "how to install fonts on *yo
 
 ### Extra or missing spaces in prompt compared to Powerlevel9k
 
-tl;dr: Add `ZLE_RPROMPT_INDENT=0` and `POWERLEVEL9K_LEGACY_ICON_SPACING=true` to `~/.zshrc` to get
+tl;dr: Add `ZLE_RPROMPT_INDENT=0` and `POWERLEVEL9K_LEGACY_ICON_SPACING=true` to `${ZDOTDIR:-~}/.zshrc` to get
 the same prompt spacing as in Powerlevel9k.
 
 When using Powerlevel10k with a Powerlevel9k config, you might get additional spaces in prompt here
@@ -1787,7 +1782,7 @@ and there. These come in two flavors.
 
 #### Extra space without background on the right side of right prompt
 
-tl;dr: Add `ZLE_RPROMPT_INDENT=0` to `~/.zshrc` to get rid of that space.
+tl;dr: Add `ZLE_RPROMPT_INDENT=0` to `${ZDOTDIR:-~}/.zshrc` to get rid of that space.
 
 From [Zsh documentation](
   http://zsh.sourceforge.net/Doc/Release/Parameters.html#index-ZLE_005fRPROMPT_005fINDENT):
@@ -1813,16 +1808,16 @@ Powerlevel9k issue: [powerlevel9k#1292](https://github.com/Powerlevel9k/powerlev
 It's been fixed in the development branch of Powerlevel9k but the fix hasn't yet made it to
 `master`.
 
-Add `ZLE_RPROMPT_INDENT=0` to `~/.zshrc` to get the same spacing on the right edge of prompt as in
+Add `ZLE_RPROMPT_INDENT=0` to `${ZDOTDIR:-~}/.zshrc` to get the same spacing on the right edge of prompt as in
 Powerlevel9k.
 
 *Note:* Several versions of Zsh have bugs that get triggered when you set `ZLE_RPROMPT_INDENT=0`.
 Powerlevel10k can work around these bugs when using powerline prompt style. If you notice visual
-artifacts in prompt, or wrong cursor position, try removing `ZLE_RPROMPT_INDENT` from `~/.zshrc`.
+artifacts in prompt, or wrong cursor position, try removing `ZLE_RPROMPT_INDENT` from `${ZDOTDIR:-~}/.zshrc`.
 
 #### Extra or missing spaces around icons
 
-tl;dr: Add `POWERLEVEL9K_LEGACY_ICON_SPACING=true` to `~/.zshrc` to get the same spacing around
+tl;dr: Add `POWERLEVEL9K_LEGACY_ICON_SPACING=true` to `${ZDOTDIR:-~}/.zshrc` to get the same spacing around
 icons as in Powerlevel9k.
 
 Spacing around icons in Powerlevel9k is inconsistent.
@@ -1831,25 +1826,25 @@ Spacing around icons in Powerlevel9k is inconsistent.
   https://raw.githubusercontent.com/romkatv/powerlevel10k-media/master/p9k-vs-p10k-icon-spacing.png)
 
 This inconsistency is a constant source of annoyance, so it was fixed in Powerlevel10k. You can add
-`POWERLEVEL9K_LEGACY_ICON_SPACING=true` to `~/.zshrc` to get the same spacing around icons as in
+`POWERLEVEL9K_LEGACY_ICON_SPACING=true` to `${ZDOTDIR:-~}/.zshrc` to get the same spacing around icons as in
 Powerlevel9k.
 
 *Note:* It's not a good idea to define `POWERLEVEL9K_LEGACY_ICON_SPACING` when using
 `p10k configure`.
 
-### Weird things happen after typing `source ~/.zshrc`
+### Weird things happen after typing `source ${ZDOTDIR:-~}/.zshrc`
 
-It's almost always a bad idea to run `source ~/.zshrc`, whether you are using Powerlevel10k or not.
+It's almost always a bad idea to run `source ${ZDOTDIR:-~}/.zshrc`, whether you are using Powerlevel10k or not.
 This command may result in random errors, misbehaving code and progressive slowdown of Zsh.
 
-If you've made changes to `~/.zshrc` or to files sourced by it, restart Zsh to apply them. The most
+If you've made changes to `${ZDOTDIR:-~}/.zshrc` or to files sourced by it, restart Zsh to apply them. The most
 reliable way to do this is to type `exit` and then start a new Zsh session. You can also use
 `exec zsh`. While not exactly equivalent to complete Zsh restart, this command is much more reliable
-than `source ~/.zshrc`.
+than `source ${ZDOTDIR:-~}/.zshrc`.
 
 ### Transient prompt stops working after some time
 
-See [weird things happen after typing `source ~/.zshrc`](
+See [weird things happen after typing `source ${ZDOTDIR:-~}/.zshrc`](
   #weird-things-happen-after-typing-source-zshrc).
 
 ### Cannot make Powerlevel10k work with my plugin manager
@@ -1859,21 +1854,21 @@ theme (so that you end up with no theme) and then installing Powerlevel10k manua
 
 1. Disable the current theme in your framework / plugin manager.
 
-- **oh-my-zsh:** Open `~/.zshrc` and remove the line that sets `ZSH_THEME`. It might look like this:
+- **oh-my-zsh:** Open `${ZDOTDIR:-~}/.zshrc` and remove the line that sets `ZSH_THEME`. It might look like this:
   `ZSH_THEME="powerlevel9k/powerlevel9k"`.
-- **zplug:** Open `~/.zshrc` and remove the `zplug` command that refers to your current theme. For
+- **zplug:** Open `${ZDOTDIR:-~}/.zshrc` and remove the `zplug` command that refers to your current theme. For
   example, if you are currently using Powerlevel9k, look for
   `zplug bhilburn/powerlevel9k, use:powerlevel9k.zsh-theme`.
 - **prezto:** Open `~/.zpreztorc` and put `zstyle :prezto:module:prompt theme off` in it. Remove
   any other command that sets `theme` such as `zstyle :prezto:module:prompt theme powerlevel9k`.
-- **antigen:** Open `~/.zshrc` and remove the line that sets `antigen theme`. It might look like
+- **antigen:** Open `${ZDOTDIR:-~}/.zshrc` and remove the line that sets `antigen theme`. It might look like
   this: `antigen theme powerlevel9k/powerlevel9k`.
 
 2. Install Powerlevel10k manually.
 
 ```zsh
-git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/powerlevel10k
-echo 'source ~/powerlevel10k/powerlevel10k.zsh-theme' >>~/.zshrc
+git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_THEME_DIR:-${XDG_CONFIG_HOME:-~/.config}/powerlevel10k
+echo 'source ~/powerlevel10k/powerlevel10k.zsh-theme' >>${ZDOTDIR:-~}/.zshrc
 ```
 
 This method of installation won't make anything slower or otherwise sub-par.
